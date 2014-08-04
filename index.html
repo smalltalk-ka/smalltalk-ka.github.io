@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="de">
     <head>
@@ -172,11 +174,13 @@ h1, h2, h3 {
             <div id="content">
                 <div class="box">
                     <div id="header-dummy" class="section"></div>
+                    {% for message in site.data.messages %}
                     <div class="section">
                         <div class="message">
-                            Diese Seite befindet sich zur Zeit im Aufbau. Schau doch später noch mal vorbei.
+                            {{ message }}
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
                 <div class="breaker"></div>
                 <div class="box">

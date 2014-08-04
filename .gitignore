@@ -1,1 +1,6 @@
+*.lock
 *.swp
+.bundle
+_site
+vendor
+
