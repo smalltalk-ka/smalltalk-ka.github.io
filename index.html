@@ -244,7 +244,13 @@ h1, h2, h3 {
                         <h2><i class="icon-calendar symbol"></i>Sessions</h2>
                         <p>Abgesehen von der aktuellen Session stehen folgende inkl. Rahmenthema fest:</p>
                         <ul>
-                            <li>2014-12-XX Weihnachtssession</li>
+                            {% for session_hash in site.data.sessions_next %}
+                            {% assign session = session_hash[1] %}
+                            <li>
+                                <strong>{{ session.date }} {{ session.title }}</strong><br />
+                                {{ session.description }}
+                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="section">
