@@ -184,22 +184,58 @@ h1, h2, h3 {
                 </div>
                 <div class="breaker"></div>
                 <div class="box">
+                    {% for session_hash in site.data.sessions_current %}
+                    {% assign session = session_hash[1] %}
                     <div class="section">
-                        <h2><i class="icon-asterisk symbol"></i>2014-XX-XX<br />Session Number One</h2>
-                        <p>Unser erstes Event wird spannend. Auf dem Plan steht:</p>
+                        <h2><i class="icon-asterisk symbol"></i>{{ session.date }}<br />{{ session.title }}</h2>
+                        <p>{{ session.description }}</p>
                         <ul>
+                            {% for talk in session.talks %}
                             <li>
-                                <div class="left"><img src="https://secure.gravatar.com/avatar/8a941fa31555eb8ea43f247116c1add3.jpg?size=60&default=identicon" /></div><div class="right"><strong>Quatsch</strong><br />Marco Neuman<br /><a href="https://twitter.com/crepererum">@crepererum</a> / <a href="https://crepererum.net">crepererum.net</a></div>
+                                <div class="left"><img src="https://secure.gravatar.com/avatar/{{ talk.email_md5 }}.jpg?size=60&default=identicon" /></div>
+                                <div class="right">
+                                    <strong>{{ talk.title }}</strong><br />
+                                    {{ talk.name }}<br />
+                                    {% assign lsep = false %}
+                                    {% if talk.twitter %}
+                                        <a href="https://twitter.com/{{ talk.twitter }}">@{{ talk.twitter }}</a>
+                                        {% assign lsep = true %}
+                                    {% endif %}
+                                    {% if talk.youtube %}
+                                        {% if lsep %} / {% endif %}
+                                        <a href="https://www.youtube.com/user/{{ talk.youtube }}">youtube.com/{{ talk.youtube }}</a>
+                                        {% assign lsep = true %}
+                                    {% endif %}
+                                    {% if talk.website %}
+                                        {% if lsep %} / {% endif %}
+                                        <a href="http://{{ talk.website }}">{{ talk.website }}</a>
+                                        {% assign lsep = true %}
+                                    {% endif %}
+                                </div>
                             </li>
-                            <li>
-                                <div class="left"><img src="https://secure.gravatar.com/avatar/81b939c1d678a05127e222c24f3a1417.jpg?size=60&default=identicon" /></div><div class="right"><strong>Zeugs mit und ohne C++</strong><br />Daniel Hofmann<br /><a href="https://twitter.com/danieljayh">@danieljayh</a> / <a href="https://daniel-j-h.github.io/">daniel-j-h.github.io</a></div>
-                            </li>
+                            {% endfor %}
+                            {% if session.open %}
                             <li>
                                 <div class="left"><img src="https://secure.gravatar.com/avatar/0.jpg?size=60&default=mm" /></div><div class="right"><strong>???</strong><br />Ihr<br />Siehe unten</div>
                             </li>
+                            {% endif %}
                         </ul>
-                        <p>Zeit und Ort werden noch bekanntgegeben.</p>
+                        <p>
+                            {% assign lsep = false %}
+                            {% if session.location %}
+                                {{ session.location }}
+                                {% assign lsep = true %}
+                            {% endif %}
+                            {% if session.time %}
+                                {% if lsep %} - {% endif %}
+                                {{ session.time }}
+                                {% assign lsep = true %}
+                            {% endif %}
+                            {% if lsep %} - {% endif %}
+                            {{ session.note }}
+                        </p>
                     </div>
+                    {% endfor %}
                     <div class="section">
                         <h2><i class="icon-users symbol"></i>Worum geht's?</h2>
                         <p>Das wissen wir auch noch nicht so richtig, denn das entscheidet ihr. Wir geben lediglich Ort, Zeit und ein grobes Rahmenthema vor. Wie ihr dieses interpretiert, hängt von eurer Kreativität und dem Material ab, was ihr an die Leute bringen wollt. Prinzipiell kann jeder mitmachen, der Lust hat, mal einen freien Talk oder Workshop zu geben. Im Gegensatz zu Konverenzen oder Meetups sind die Rahmenbedingungen lasch und die Freude groß. Das ist auch der Grund, warum es für euch eine gute Sache ist. Zuhören darf auch jeder, allerdings gibt es bestimmte Veranstaltungen, auf denen gesprochen werden muss, was wir aber als Regel bekanntgeben.</p>

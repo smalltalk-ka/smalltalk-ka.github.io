@@ -1,0 +1,16 @@
+title: Session Number One
+date: 2014-XX-XX
+description: Die Premiere wird spannend und bietet bereits einige interessante Talks.
+note: Ort und Zeit werden noch bekanntgegeben.
+open: true
+talks:
+  - title: Quatsch
+    name: Marco Neumann
+    email_md5: 8a941fa31555eb8ea43f247116c1add3
+    twitter: crepererum
+    website: crepererum.net
+  - title: Zeugs mit und ohne C++
+    name: Daniel Hofmann
+    email_md5: 81b939c1d678a05127e222c24f3a1417
+    twitter: danieljayh
+    website: daniel-j-h.github.io
