@@ -43,9 +43,25 @@ h1, h2, h3 {
     font-family: 'Carter One';
 }
 
+/* Rendering shadow over canvas elements seems to be buggy in Firefox and Chrome.
+ * Both render a 0.5px wide area around the border of #canvassegment with the content of #canvas over the shadow.
+ * That's why shadow margin and canvas margin is required.
+ * Do NOT set background of the #canvassegment!
+ */
+#canvassegment {
+    border-radius: 100px;
+    box-shadow: 0 0 1px 2px #272727 inset, 1px 2px 4px 2px #272727 inset;
+    height: 202px;
+    margin-top: 40px;
+    overflow: hidden;
+    width: 202px;
+}
+
 #canvas {
     border-radius: 100px;
-    margin-top: 40px;
+    margin: 1px;
+    position: relative;
+    z-index: -10;
 }
 
 #header {
@@ -297,7 +313,9 @@ h1, h2, h3 {
                 </div>
                 <div class="breaker"></div>
                 <div class="box">
-                    <canvas id="canvas" width="200" height="200"></canvas>
+                    <div id="canvassegment">
+                        <canvas id="canvas" width="200" height="200"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
