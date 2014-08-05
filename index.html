@@ -8,6 +8,7 @@
         <meta name="description" content="Kreative Talks und Workshops, off-topic versteht sich" />
         <meta name="keywords" content="Talks,Workshops,KA,Karlsruhe" />
         <meta name="author" content="Daniel Hofmann,Marco Neumann" />
+        <link id="favicon" rel="icon" type="image/png" />
         <link href="css/normalize.css" rel="stylesheet" type="text/css" />
         <link href="css/fontello.css" rel="stylesheet" type="text/css" />
         <style type="text/css" media="screen">
@@ -40,6 +41,11 @@ a {
 
 h1, h2, h3 {
     font-family: 'Carter One';
+}
+
+#canvas {
+    border-radius: 100px;
+    margin-top: 40px;
 }
 
 #header {
@@ -289,10 +295,126 @@ h1, h2, h3 {
                         </div>
                     </div>
                 </div>
+                <div class="breaker"></div>
+                <div class="box">
+                    <canvas id="canvas" width="200" height="200"></canvas>
+                </div>
             </div>
         </div>
         <script src="js/skrollr.min.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" charset="utf-8">
+var link, canvas, ctx, y1, y2, x1, x2, k1, k2, a, b, t;
+
+function diffRandom(diff) {
+    "use strict";
+    return (Math.random() * 2 - 1) * diff;
+}
+
+function updateFavicon() {
+    "use strict";
+    // create new small canvas
+    var canvas2 = document.createElement("canvas");
+    canvas2.height = 100;
+    canvas2.width = 100;
+
+    // setup new context
+    var ctx2 = canvas2.getContext("2d");
+    ctx2.fillStyle = "#272727";
+
+    // draw gray cicle
+    ctx2.beginPath();
+    ctx2.arc(50, 50, 50, 0, 2 * Math.PI);
+    ctx2.fill();
+
+    // clip image (= original canvas) using a smaller one
+    ctx2.beginPath();
+    ctx2.arc(50, 50, 40, 0, 2 * Math.PI);
+    ctx2.closePath();
+    ctx2.clip();
+
+    ctx2.drawImage(canvas, 0, 0, 100, 100);
+
+    // encode small canvas as png and store to the favicon
+    link.href = canvas2.toDataURL("image/png");
+    document.head.appendChild(link);
+}
+
+function step() {
+    "use strict";
+
+    // calculate spline data
+    var y = y1 + t * (y2 - y1);
+    var x = (1 - t) * x1 + t * x2 + t * (1 - t) * (a * (1 - t) + b * t);
+
+    if (t <= 1) {
+        ctx.fillStyle = "#272727";
+        ctx.beginPath();
+        ctx.arc(x, y, 1.5, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // increase time
+        t += 1 / 100;
+    } else {
+        // that skips the first round without a flower
+        if (t) {
+            var rad = -Math.atan(k2);
+
+            // fade out background
+            ctx.fillStyle = "rgba(255,215,119,0.2)";
+            ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+            // rotate bulb
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rad);
+            ctx.translate(-2.5, -3);
+
+            // add socket
+            ctx.fillStyle = "#F22C14";
+            ctx.fillRect(0, 0, 5, 5);
+
+            // add bulb glass
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(-20 + 2.5, -20, 20 + 2.5, -20, 2.5 + 2.5, 0);
+            ctx.fill();
+
+            // add shining corona
+            ctx.strokeStyle = "#4F0F07";
+            for (var i = 0; i < 5; ++i) {
+                var j = i / 6 + 5 / 12;
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                ctx.arc(2.5, -8, 20, j * 2 * Math.PI - 0.075, j * 2 * Math.PI + 0.075);
+                ctx.stroke();
+            }
+
+            // restore context without rotation
+            ctx.restore();
+        }
+
+        // create new spline
+        var targetRadius = 0.3 * Math.random();
+        var targetAngle = 2 * Math.PI * Math.random();
+
+        y1 = canvas.clientHeight - 10;
+        y2 = canvas.clientHeight * (0.4 + targetRadius * Math.cos(targetAngle));
+        x1 = canvas.clientWidth / 2;
+        x2 = canvas.clientWidth * (0.5 + targetRadius * Math.sin(targetAngle));
+        k1 = diffRandom(0.5);
+        k2 = diffRandom(2);
+        a = k1 * (y2 - y1) - (x2 - x1);
+        b = -k2 * (y2 - y1) + (x2 - x1);
+        t = 0;
+
+        // save current canvas to favicon
+        updateFavicon();
+    }
+
+    // finished
+    window.requestAnimationFrame(step);
+}
+
 function init() {
     "use strict";
 
@@ -301,6 +423,14 @@ function init() {
             header: 190
         }
     });
+
+    link = document.getElementById("favicon");
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgba(255,215,119,1)";
+    ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+    window.requestAnimationFrame(step);
 }
 
 window.onload = init;
