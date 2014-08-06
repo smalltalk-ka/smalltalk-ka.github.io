@@ -7,6 +7,7 @@ talks:
   - title: Quatsch
     name: Marco Neumann
     email_md5: 8a941fa31555eb8ea43f247116c1add3
+    link: https://github.com/crepererum/
     twitter: crepererum
     website: crepererum.net
   - title: Zeugs mit und ohne C++

@@ -216,7 +216,7 @@ h1, h2, h3 {
                             <li>
                                 <div class="left"><img src="https://secure.gravatar.com/avatar/{{ talk.email_md5 }}.jpg?size=60&default=identicon" width="60" height="60" /></div>
                                 <div class="right">
-                                    <strong>{{ talk.title }}</strong><br />
+                                    <strong>{{ talk.title }}{% if talk.link %} <a href="{{ talk.link }}"><i class="icon-link-ext-alt"></i></a>{% endif %}</strong><br />
                                     {{ talk.name }}<br />
                                     {% assign lsep = false %}
                                     {% if talk.twitter %}
