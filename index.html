@@ -340,18 +340,22 @@ function updateFavicon() {
         // setup new context
         ctx2 = canvas2.getContext("2d");
         ctx2.fillStyle = "#272727";
-
-        // draw gray circle
-        ctx2.beginPath();
-        ctx2.arc(50, 50, 50, 0, 2 * Math.PI);
-        ctx2.fill();
-
-        // clip all following operations using a smaller circle
-        ctx2.beginPath();
-        ctx2.arc(50, 50, 40, 0, 2 * Math.PI);
-        ctx2.closePath();
-        ctx2.clip();
     }
+
+    // clear
+    ctx2.clearRect(0, 0, 100, 100);
+
+    // draw gray circle
+    ctx2.beginPath();
+    ctx2.arc(50, 50, 50, 0, 2 * Math.PI);
+    ctx2.fill();
+
+    // clip all following operations using a smaller circle
+    ctx2.save();
+    ctx2.beginPath();
+    ctx2.arc(50, 50, 40, 0, 2 * Math.PI);
+    ctx2.closePath();
+    ctx2.clip();
 
     // draw original canvas (clipped!)
     ctx2.drawImage(canvas, 0, 0, 100, 100);
@@ -359,6 +363,9 @@ function updateFavicon() {
     // encode small canvas as png and store to the favicon
     link.href = canvas2.toDataURL("image/png");
     document.head.appendChild(link);
+
+    // restore non-clipping
+    ctx2.restore();
 }
 
 function step() {
