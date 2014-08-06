@@ -214,7 +214,7 @@ h1, h2, h3 {
                         <ul>
                             {% for talk in session.talks %}
                             <li>
-                                <div class="left"><img src="https://secure.gravatar.com/avatar/{{ talk.email_md5 }}.jpg?size=60&default=identicon" /></div>
+                                <div class="left"><img src="https://secure.gravatar.com/avatar/{{ talk.email_md5 }}.jpg?size=60&default=identicon" width="60" height="60" /></div>
                                 <div class="right">
                                     <strong>{{ talk.title }}</strong><br />
                                     {{ talk.name }}<br />
@@ -238,7 +238,7 @@ h1, h2, h3 {
                             {% endfor %}
                             {% if session.open %}
                             <li>
-                                <div class="left"><img src="https://secure.gravatar.com/avatar/0.jpg?size=60&default=mm" /></div><div class="right"><strong>???</strong><br />Ihr<br />Siehe unten</div>
+                                <div class="left"><img src="https://secure.gravatar.com/avatar/0.jpg?size=60&default=mm" width="60" height="60" /></div><div class="right"><strong>???</strong><br />Ihr<br />Siehe unten</div>
                             </li>
                             {% endif %}
                         </ul>
