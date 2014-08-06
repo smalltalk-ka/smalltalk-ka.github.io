@@ -321,7 +321,7 @@ h1, h2, h3 {
         </div>
         <script src="js/skrollr.min.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" charset="utf-8">
-var link, canvas, ctx, y1, y2, x1, x2, k1, k2, a, b, t;
+var link, canvas, canvas2, ctx, ctx2, y1, y2, x1, x2, k1, k2, a, b, t;
 
 function diffRandom(diff) {
     "use strict";
@@ -330,26 +330,30 @@ function diffRandom(diff) {
 
 function updateFavicon() {
     "use strict";
-    // create new small canvas
-    var canvas2 = document.createElement("canvas");
-    canvas2.height = 100;
-    canvas2.width = 100;
 
-    // setup new context
-    var ctx2 = canvas2.getContext("2d");
-    ctx2.fillStyle = "#272727";
+    if (!canvas2) {
+        // create new small canvas
+        canvas2 = document.createElement("canvas");
+        canvas2.height = 100;
+        canvas2.width = 100;
 
-    // draw gray cicle
-    ctx2.beginPath();
-    ctx2.arc(50, 50, 50, 0, 2 * Math.PI);
-    ctx2.fill();
+        // setup new context
+        ctx2 = canvas2.getContext("2d");
+        ctx2.fillStyle = "#272727";
 
-    // clip image (= original canvas) using a smaller one
-    ctx2.beginPath();
-    ctx2.arc(50, 50, 40, 0, 2 * Math.PI);
-    ctx2.closePath();
-    ctx2.clip();
+        // draw gray circle
+        ctx2.beginPath();
+        ctx2.arc(50, 50, 50, 0, 2 * Math.PI);
+        ctx2.fill();
 
+        // clip all following operations using a smaller circle
+        ctx2.beginPath();
+        ctx2.arc(50, 50, 40, 0, 2 * Math.PI);
+        ctx2.closePath();
+        ctx2.clip();
+    }
+
+    // draw original canvas (clipped!)
     ctx2.drawImage(canvas, 0, 0, 100, 100);
 
     // encode small canvas as png and store to the favicon
